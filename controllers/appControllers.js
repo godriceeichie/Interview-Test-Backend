@@ -1,6 +1,6 @@
 import Sector from '../models/sectorModel.js'
 import FormData from '../models/formDataModel.js'
-
+import mongoose from 'mongoose'
 
 // Controller function to get all sectors
 export const getSectors = async (req, res) => {
