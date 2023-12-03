@@ -12,6 +12,20 @@ export const getSectors = async (req, res) => {
     }
 }
 
+export const getFormData = async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.json({ error: 'No such form data' })
+    }
+
+    const formData = await FormData.findById(id)
+    if (!formData) {
+        return res.status(404).json({ err: 'No such formData' })
+    }
+    res.status(200).json(formData) 
+}
+
 // Controller function to handle form data submission
 export const postFormData = async (req, res) => {
      // Extract data from the request body
@@ -42,5 +56,22 @@ export const postFormData = async (req, res) => {
     }catch(error){
         return res.status(400).json({ error: error.message })
     }
+}
+
+export const updateFormData = async (req, res) => {
+    const { id } = req.params
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such form data' })
+    }
+
+    const formData = await FormData.findOneAndUpdate({ _id: id }, {
+        ...req.body
+    })
+
+    if (!formData) {
+        return res.status(400).json({ error: 'No such form data' })
+    }
+
+    res.status(200).json(formData)
 }
 
